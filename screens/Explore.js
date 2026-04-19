@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   FlatList,
   Image,
   TouchableOpacity,
@@ -65,7 +64,7 @@ export default function Explore({ navigation }) {
       ]}
       onPress={() => {
         if (item.name === "Beverages") {
-          navigation.navigate("Beverages");
+          navigation.navigate("CategoryProductsFlow"); 
         }
       }}
     >
@@ -77,19 +76,22 @@ export default function Explore({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.headerTitle}>Find Products</Text>
-      <View style={styles.searchContainer}>
+      
+      <TouchableOpacity 
+        style={styles.searchContainer}
+        onPress={() => navigation.navigate("SearchFlow")}
+      >
         <Feather
           name="search"
           size={20}
           color="#181725"
           style={styles.searchIcon}
         />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search Store"
-          placeholderTextColor="#7C7C7C"
-        />
-      </View>
+        <Text style={[styles.searchInput, { color: "#7C7C7C" }]}>
+          Search Store
+        </Text>
+      </TouchableOpacity>
+
       <FlatList
         data={categories}
         renderItem={renderCategoryItem}
@@ -124,7 +126,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   searchIcon: { marginRight: 10 },
-  searchInput: { flex: 1, fontSize: 15, color: "#181725" },
+  searchInput: { flex: 1, fontSize: 15 },
   listContent: { paddingHorizontal: 20, paddingBottom: 20 },
   row: { justifyContent: "space-between" },
   card: {

@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 
+
 import HomeScreen from "./screens/HomeScreen";
 import Explore from "./screens/Explore";
 import Search from "./screens/Search";
@@ -16,6 +17,9 @@ import Account from "./screens/Account";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const MainStack = createNativeStackNavigator();
+const ExploreTabStack = createNativeStackNavigator(); // <--- Tạo Stack mới ở đây
+
 
 function MainTabs() {
   return (
@@ -37,12 +41,32 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Shop" component={HomeScreen} />
+      
       {/* Gắn màn Search vào Tab Explore để có luôn thanh tìm kiếm */}
-      <Tab.Screen name="Explore" component={Search} />
+      <Tab.Screen name="Explore" component={ExploreTabFlow} />
       <Tab.Screen name="Cart" component={MyCart} />
       <Tab.Screen name="Favourite" component={Favorites} />
       <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
+  );
+}
+// App.js
+
+function ExploreTabFlow() {
+  return (
+    <ExploreTabStack.Navigator screenOptions={{ headerShown: false }}>
+      {/* 1. Màn hình đầu tiên: Explore (Giao diện danh mục) */}
+      <ExploreTabStack.Screen name="ExploreRoot" component={Explore} />
+      
+      {/* 2. Màn hình thứ hai: Search (Kết quả tìm kiếm) */}
+      <ExploreTabStack.Screen name="SearchFlow" component={Search} />
+      
+      {/* 3. Màn hình thứ ba: Chi tiết danh mục (Tái sử dụng Beverages.js) */}
+      <ExploreTabStack.Screen name="CategoryProductsFlow" component={Beverages} />
+      
+      {/* 4. Màn hình thứ tư: Filters (Bộ lọc) - Nhảy ra từ Search */}
+      <ExploreTabStack.Screen name="FiltersFlow" component={Filters} />
+    </ExploreTabStack.Navigator>
   );
 }
 

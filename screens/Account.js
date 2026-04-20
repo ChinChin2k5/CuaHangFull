@@ -37,7 +37,7 @@ export default function Account({ navigation }) {
     <View style={styles.main}>
       <Text style={styles.title}>Tài khoản của Chiến</Text>
 
-      {/* ĐẠI CA THÊM: Nút xem Lịch sử Đơn Hàng */}
+      
       <TouchableOpacity 
         style={styles.orderButton} 
         onPress={() => navigation.navigate('Orders')}

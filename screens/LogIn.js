@@ -10,31 +10,25 @@ import { storageService } from '../services/storageService';
 export default function LogInScreen({ navigation }) {
   const [securePassword, setSecurePassword] = useState(true);
   
-  // ĐẠI CA THÊM: Tạo 2 biến state để hứng chữ em gõ vào
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // HÀM ĐĂNG NHẬP GIẢ LẬP (MOCK LOGIN)
   const handleLogin = async () => {
-    // 1. Validate sương sương (Không cho bỏ trống)
     if (email === '' || password === '') {
       Alert.alert("Lỗi", "Ê Kỹ sư! Nhập bừa email và password vào chứ đừng để trống!");
       return;
     }
 
     try {
-      // 2. TẠO FAKE DATA (Lấy luôn cái email em vừa gõ bừa)
-      // Lưu ý: Đề bài yêu cầu có hiển thị Tên/MSSV khi quay video, mình nhét luôn vào đây!
+      
       const fakeUser = { 
         email: email,
-        name: "Dương Tiến Chiến - MSSV12345", // Sửa lại đúng MSSV của em
+        name: "Dương Tiến Chiến - MSSV12345", 
         token: "nectar-fake-token-abcxyz" 
       };
       
-      // 3. Lưu cục Fake Data này vào ổ cứng
       await storageService.saveUser(fakeUser);
       
-      // 4. Thông báo và ĐÁ VĂNG vào màn hình Home
       Alert.alert("Thành công", "Đăng nhập giả lập thành công!");
       navigation.replace("MainTabs"); 
 
@@ -52,24 +46,22 @@ export default function LogInScreen({ navigation }) {
           <Text style={styles.title}>Log In</Text>
           <Text style={styles.subtitle}>Enter your emails and password</Text>
 
-          {/* ĐẠI CA SỬA: Gắn state email vào ô Input */}
           <AppTextInput 
             label="Email" 
             placeholder="imshuvo97@gmail.com"
             keyboardType="email-address" 
             value={email}
-            onChangeText={setEmail} // Bắt sự kiện gõ phím
+            onChangeText={setEmail} 
           />
 
           <View style={styles.passwordContainer}>
             <View style={{ flex: 1 }}>
-              {/* ĐẠI CA SỬA: Gắn state password vào ô Input */}
               <AppTextInput 
                 label="Password" 
                 placeholder="********"
                 secureTextEntry={securePassword} 
                 value={password}
-                onChangeText={setPassword} // Bắt sự kiện gõ phím
+                onChangeText={setPassword} 
               />
             </View>
             <TouchableOpacity 
@@ -84,7 +76,6 @@ export default function LogInScreen({ navigation }) {
             <Text style={styles.forgotText}>Forgot Password?</Text>
           </TouchableOpacity>
           
-          {/* Nút Log In sẽ gọi hàm handleLogin */}
           <PrimaryButton title="Log In" onPress={handleLogin} />
 
           <View style={styles.footerRow}>
@@ -99,9 +90,7 @@ export default function LogInScreen({ navigation }) {
   );
 }
 
-// ... (Giữ nguyên phần StyleSheet ở dưới của em)
 
-// ... (Giữ nguyên toàn bộ phần StyleSheet của em ở dưới, không thay đổi gì cả)
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 20, paddingTop: 50 },
   content: { alignItems: 'center', marginTop: 30, flex: 1 },

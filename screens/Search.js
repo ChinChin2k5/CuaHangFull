@@ -7,13 +7,12 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Alert // ĐẠI CA THÊM: Import Alert để thông báo
+  Alert 
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather, Ionicons } from "@expo/vector-icons";
 
 import productsData from "../data";
-// ĐẠI CA THÊM: Lôi cái "ổ cứng" ra để dùng
 import { storageService } from '../services/storageService'; 
 
 export default function Search({ navigation }) {
@@ -41,32 +40,24 @@ export default function Search({ navigation }) {
     setFilteredData(newData);
   };
 
-  // ==========================================
-  // ĐẠI CA THÊM: THUẬT TOÁN THÊM VÀO GIỎ HÀNG
-  // ==========================================
+
   const handleAddToCart = async (product) => {
     try {
-      // 1. Lôi giỏ hàng cũ từ trong ổ cứng ra
       const currentCart = await storageService.getCart();
 
-      // 2. Tìm xem sản phẩm này đã có trong giỏ chưa
-      // Dùng id để tìm, trả về index (vị trí). Nếu không thấy trả về -1
+      
       const existingItemIndex = currentCart.findIndex(item => item.id === product.id);
 
       let updatedCart = [...currentCart];
 
       if (existingItemIndex > -1) {
-        // TRƯỜNG HỢP A: Đã có sẵn -> Tăng số lượng mua (cartQuantity) lên 1
         updatedCart[existingItemIndex].cartQuantity += 1;
       } else {
-        // TRƯỜNG HỢP B: Chưa có -> Thêm mới vào giỏ, set số lượng mua = 1
         updatedCart.push({ ...product, cartQuantity: 1 });
       }
 
-      // 3. Cất cái giỏ hàng mới cập nhật trở lại vào ổ cứng
       await storageService.saveCart(updatedCart);
 
-      // 4. Báo cho Kỹ sư biết đã thành công!
       Alert.alert("Thành công!", `Đã thêm ${product.name} vào giỏ hàng.`);
       
     } catch (error) {

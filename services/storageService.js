@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Định nghĩa các Key lưu trữ để không bị gõ sai chính tả
 const KEYS = {
   USER: '@nectar_user',
   CART: '@nectar_cart',
@@ -8,9 +7,7 @@ const KEYS = {
 };
 
 export const storageService = {
-  // ==========================================
-  // 1. TÍNH NĂNG AUTH (XÁC THỰC)
-  // ==========================================
+  
   saveUser: async (userData) => {
     try {
       const jsonValue = JSON.stringify(userData);
@@ -33,7 +30,6 @@ export const storageService = {
 
   logout: async () => {
     try {
-      // Đề bài yêu cầu: Xóa toàn bộ dữ liệu liên quan
       await AsyncStorage.multiRemove([KEYS.USER, KEYS.CART, KEYS.ORDERS]);
       console.log('Đã đăng xuất và xóa sạch dữ liệu!');
     } catch (e) {
@@ -41,9 +37,7 @@ export const storageService = {
     }
   },
 
-  // ==========================================
-  // 2. TÍNH NĂNG GIỎ HÀNG (CART)
-  // ==========================================
+  
   saveCart: async (cartData) => {
     try {
       const jsonValue = JSON.stringify(cartData);
@@ -63,15 +57,11 @@ export const storageService = {
     }
   },
 
-  // ==========================================
-  // 3. TÍNH NĂNG ĐƠN HÀNG (ORDERS)
-  // ==========================================
+  
   saveOrder: async (newOrder) => {
     try {
-      // Lấy danh sách đơn hàng cũ ra trước
       const existingOrders = await storageService.getOrders();
       
-      // Nhét đơn hàng mới vào đầu danh sách
       const updatedOrders = [newOrder, ...existingOrders];
       
       const jsonValue = JSON.stringify(updatedOrders);

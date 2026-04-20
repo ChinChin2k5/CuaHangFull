@@ -66,6 +66,42 @@ export default function MyCart({ navigation }) {
       }
     ]);
   };
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) {
+      Alert.alert("Lỗi", "Giỏ hàng đang trống");
+      return;
+    }
+
+    try {
+      // 1. Tạo cục Data Đơn Hàng mới chuẩn Requirement
+      const newOrder = {
+        id: "ORD-" + new Date().getTime().toString().slice(-6), // Random ID cho ngầu
+        items: cartItems, // Danh sách sản phẩm
+        total: totalPrice.toFixed(2), // Tổng tiền
+        date: new Date().toLocaleString("vi-VN"), // Thời gian đặt hàng
+      };
+
+      // 2. Nhét đơn hàng này vào ổ cứng (AsyncStorage)
+      await storageService.saveOrder(newOrder);
+
+      // 3. Xóa sạch giỏ hàng hiện tại (Đã mua xong thì giỏ phải rỗng)
+      await storageService.saveCart([]);
+      setCartItems([]); // Clear UI màn hình lập tức
+
+      // 4. Bắn pháo hoa báo thành công và đá sang màn hình Lịch sử!
+      Alert.alert(
+        "Chốt đơn thành công! ", 
+        "Bạn có muốn xem lại đơn hàng không?",
+        [
+          { text: "Đóng", style: "cancel" },
+          { text: "Xem Đơn Hàng", onPress: () => navigation.navigate("Orders") }
+        ]
+      );
+
+    } catch (error) {
+      console.error("Lỗi khi Checkout:", error);
+    }
+  };
 
   
   const renderCartItem = ({ item }) => (
@@ -122,7 +158,7 @@ export default function MyCart({ navigation }) {
       )}
 
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.checkoutButton}>
+        <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
           <Text style={styles.checkoutText}>Go to Checkout</Text>
           <View style={styles.totalPriceBadge}>
             <Text style={styles.totalPriceText}>${totalPrice.toFixed(2)}</Text>

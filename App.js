@@ -28,6 +28,7 @@ import Filters from "./screens/Filters";
 import Beverages from "./screens/Beverages";
 import ProductDetail from "./screens/ProductDetail";
 import Account from "./screens/Account";
+import Orders from "./screens/Orders";
 
 // ==========================================
 // 3. KHỞI TẠO CÁC BỘ ĐIỀU HƯỚNG (NAVIGATORS)
@@ -111,6 +112,7 @@ export default function App() {
           component={Filters}
           options={{ presentation: "modal" }}
         />
+        <Stack.Screen name="Orders" component={Orders} />
 
       </Stack.Navigator>
     </NavigationContainer>
